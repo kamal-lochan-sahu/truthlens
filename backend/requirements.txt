@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+newspaper3k
+beautifulsoup4
+requests
+python-dotenv
+lxml_html_clean
+transformers
+torch
