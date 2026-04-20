@@ -28,7 +28,8 @@ export default function Home() {
     e.preventDefault();
     setLoading(true); setError(null); setResult(null);
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/analyze", {
+      // ✅ CHANGED HERE: Pointing directly to Live Hugging Face Backend
+      const response = await fetch("https://kamal-lochan-sahu-truthlens.hf.space/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: url, image_url: imageUrl || null }),
@@ -53,7 +54,8 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/analyze-upload", {
+      // ✅ CHANGED HERE: Pointing directly to Live Hugging Face Backend
+      const response = await fetch("https://kamal-lochan-sahu-truthlens.hf.space/api/analyze-upload", {
         method: "POST",
         // Fetch API apne aap Content-Type: multipart/form-data set kar lega
         body: formData,
