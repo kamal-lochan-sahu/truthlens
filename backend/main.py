@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -28,7 +29,7 @@ class ArticleRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return {"message": "TruthLens Backend v2.0 is Running smoothly! 🚀"}
+    return {"message": "TruthLens Backend v2.0 is Running smoothly on Hugging Face! 🚀"}
 
 # ==========================================
 # VERSION 1: LINK / URL ANALYZER ENDPOINT
@@ -90,11 +91,11 @@ async def analyze_uploaded_image(file: UploadFile = File(...)):
             
         print(f"-> Text Extracted! ({len(extracted_text)} characters)")
         
-        # 2. Jo text nikala, usko apne AI Analyzer se check karwana (AI vs Human)
+        # 2. Jo text nikala, usko apne AI Analyzer se check karwana
         print("2. Analyzing Text Patterns...")
         text_analysis = analyze_text(extracted_text)
 
-        # 3. Google API par Fact Check karna (Start ka thoda hissa as a claim use karke)
+        # 3. Google API par Fact Check karna
         print("3. Checking Facts on Google...")
         fact_check = check_facts(extracted_text[:200]) 
 
@@ -103,7 +104,7 @@ async def analyze_uploaded_image(file: UploadFile = File(...)):
             "success": True,
             "data": {
                 "title": "Image Screenshot Analysis",
-                "extracted_text": extracted_text, # Dikhane ke liye ki AI ne kya padha
+                "extracted_text": extracted_text, 
                 "text_analysis": text_analysis,
                 "fact_check": fact_check
             }
@@ -112,6 +113,10 @@ async def analyze_uploaded_image(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Server Run Command
+# ==========================================
+# SERVER RUN COMMAND (HUGGING FACE READY)
+# ==========================================
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    # Hugging Face default port 7860 use karta hai
+    port = int(os.environ.get("PORT", 7860))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
