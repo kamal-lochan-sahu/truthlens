@@ -1,0 +1,16 @@
+{
+  "name": "TruthLens",
+  "short_name": "TruthLens",
+  "description": "AI Deepfake & Misinformation Detector",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#8b5cf6",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/x-icon"
+    }
+  ]
+}
