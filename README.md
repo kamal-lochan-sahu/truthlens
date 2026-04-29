@@ -8,7 +8,7 @@ pinned: false
 short_description: AI-powered Misinformation & Fake News Detector API.
 ---
 
-# 👁️ TruthLens API v2.0 - Deep Fake & Misinformation Detector
+# 👁️ TruthLens API - Deep Fake & Misinformation Detector
 
 Welcome to the backend engine of **TruthLens**, a robust AI-powered API designed to combat the spread of fake news, manipulated screenshots, and misinformation on the internet.
 
