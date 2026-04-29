@@ -28,7 +28,6 @@ export default function Home() {
     e.preventDefault();
     setLoading(true); setError(null); setResult(null);
     try {
-      // ✅ CHANGED HERE: Pointing directly to Live Hugging Face Backend
       const response = await fetch("https://kamal-lochan-sahu-truthlens.hf.space/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -54,10 +53,8 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      // ✅ CHANGED HERE: Pointing directly to Live Hugging Face Backend
       const response = await fetch("https://kamal-lochan-sahu-truthlens.hf.space/api/analyze-upload", {
         method: "POST",
-        // Fetch API apne aap Content-Type: multipart/form-data set kar lega
         body: formData,
       });
       const data = await response.json();
@@ -131,7 +128,8 @@ export default function Home() {
                 type="submit" disabled={loading}
                 className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${loading ? "bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700" : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-lg hover:shadow-purple-500/25"}`}
               >
-                {loading ? "🤖 Gemini is Extracting & Analyzing..." : "Scan Image for Truth"}
+                {/* BUTTON TEXT CHANGED HERE */}
+                {loading ? "Extracting & Analyzing..." : "Scan Image for Truth"}
               </button>
             </form>
           )}
@@ -148,7 +146,7 @@ export default function Home() {
                 type="submit" disabled={loading}
                 className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${loading ? "bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700" : "bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white shadow-lg hover:shadow-blue-500/25"}`}
               >
-                {loading ? "🕵️ Scraping & Analyzing..." : "Scan Web Link"}
+                {loading ? "Scraping & Analyzing..." : "Scan Web Link"}
               </button>
             </form>
           )}
@@ -171,9 +169,12 @@ export default function Home() {
             {result.extracted_text && (
               <div className="bg-gray-900/80 p-6 rounded-xl border border-gray-800 shadow-lg">
                 <h3 className="text-sm uppercase tracking-wider font-semibold mb-3 text-indigo-400 flex items-center"><span className="mr-2">📝</span> Text Extracted by AI</h3>
-                <p className="text-gray-300 bg-gray-950 p-4 rounded-lg font-mono text-sm leading-relaxed border border-gray-800/50">
-                  {result.extracted_text}
-                </p>
+                {/* SCROLLABLE BOX ADDED HERE */}
+                <div className="bg-gray-950 p-4 rounded-lg border border-gray-800/50 max-h-64 overflow-y-auto">
+                  <p className="text-gray-300 font-mono text-sm leading-relaxed whitespace-pre-wrap break-words">
+                    {result.extracted_text}
+                  </p>
+                </div>
               </div>
             )}
 
@@ -183,20 +184,20 @@ export default function Home() {
                 <h3 className="text-lg font-semibold mb-4 text-purple-400 flex items-center"><span className="mr-2">🧠</span> AI Text Analysis</h3>
                 <div className="flex items-center justify-between bg-gray-950 p-4 rounded-lg mb-3">
                   <span className="text-gray-400">Verdict</span>
-                  <span className={`px-4 py-1.5 rounded-full text-sm font-bold tracking-wide ${result.text_analysis.label === 'Real' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
-                    {result.text_analysis.label.toUpperCase()}
+                  <span className={`px-4 py-1.5 rounded-full text-sm font-bold tracking-wide ${result.text_analysis?.label === 'Real' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                    {result.text_analysis?.label?.toUpperCase() || "UNKNOWN"}
                   </span>
                 </div>
                 <div className="flex items-center justify-between px-2">
                   <span className="text-gray-500 text-sm">Confidence</span>
-                  <span className="font-mono text-gray-300">{result.text_analysis.confidence}%</span>
+                  <span className="font-mono text-gray-300">{result.text_analysis?.confidence || "0"}%</span>
                 </div>
               </div>
 
               {/* Fact Check Card */}
               <div className="bg-gray-900/80 p-6 rounded-xl border border-gray-800 shadow-lg">
                 <h3 className="text-lg font-semibold mb-4 text-blue-400 flex items-center"><span className="mr-2">🔍</span> Google Fact-Check</h3>
-                {result.fact_check.fact_found ? (
+                {result.fact_check?.fact_found ? (
                   <div className="space-y-3">
                     <div className="bg-gray-950 p-3 rounded-lg border border-gray-800/50">
                       <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Claim Investigated</p>
